@@ -3,12 +3,13 @@ from pandas.compat import StringIO
 import matplotlib.pyplot as plt
 from matplotlib.finance import candlestick_ohlc
 import matplotlib.dates as mdates
-import average_directional_index as adx
+
+
+# Average directional index
+from indicators import adx
+
 import numpy as np
 import time
-
-
-
 
 
 # Calculate standart deviation for given interval (ex. 10 days)
@@ -31,9 +32,6 @@ def standart_deviation(interval_length, prices, dates):
 
 
 
-
-
-
 #https://stackoverflow.com/questions/20036663/understanding-numpys-convolve
 def moving_average(values, window):
     weights = np.repeat(1.0, window) / window
@@ -41,8 +39,6 @@ def moving_average(values, window):
     #print(weights)
     return smas # as a numpy array
     
-
-
 
 
 
@@ -79,8 +75,6 @@ def bollinger_bands(multiplier, time_diff, date, closed_price):
 
 
 
-
-
 # Plotting graph
 def plot_candlestick(df):
     fig, (ax, ax2) = plt.subplots(nrows=2, sharex=True)
@@ -109,7 +103,7 @@ def plot_candlestick(df):
 
 
 # Reading csv (comma seprated value) using panda dataframe
-df = pd.read_csv("tesla_stock_data.csv", index_col='Date', parse_dates=True)
+df = pd.read_csv("./files/tesla_stock_data.csv", index_col='Date', parse_dates=True)
 
 # Retrieving parameters required for calculating 10 days deviation
 prices_data = df.loc[:, "Close"]
@@ -127,7 +121,26 @@ ax.legend(loc='upper left')
 
 
 
-pos_directional_index, neg_directional_index, avg_direction_index = adx.run_average_direction()
+
+file = pd.read_csv("./files/tesla_stock_data.csv", index_col='Date', parse_dates=True)
+test_high = file.loc[:, "High"]
+test_low = file.loc[:, "Low"]
+test_close = file.loc[:, "Close"]
+
+
+
+'''
+file = pd.read_excel('test_data.xls')
+self.test_high = file['High'].values
+self.test_low = file['Low'].values
+self.test_close = file['Close'].values
+'''
+
+
+
+
+adx_index = adx.AverageDirectionalIndex(test_high, test_low, test_close)
+pos_directional_index, neg_directional_index, avg_direction_index = adx_index.run_average_direction()
 #print(pos_directional_index)
 #print(neg_directional_index)
 #print(avg_direction_index)
