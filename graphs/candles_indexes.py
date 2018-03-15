@@ -13,8 +13,7 @@ class CandlesIndexes():
 
 
 	def display_candle_bars(self):
-
-		# Creates two sublots, with shared x axis
+		# Creates two subplots, with shared x axis
 		fig, (self.ax1, self.ax2) = plt.subplots(nrows=2, sharex=True)
 		
 		# Tells that x axis would be for date and sets desired format
@@ -37,11 +36,17 @@ class CandlesIndexes():
 		self.ax1.legend(loc='upper left')
 
 
-
 	def display_adx_indicator(self, dates, avg_direction_index, pos_directional_index, neg_directional_index):
-
 		self.ax2.plot(dates[27:], avg_direction_index, 'r', label='ADX')
 		self.ax2.plot(dates[14:], pos_directional_index, 'g',  label='+DX')
 		self.ax2.plot(dates[14:], neg_directional_index, 'b', label='-DX')
 		self.ax2.legend(loc='upper left')
 		self.ax2.set_ylabel("Trend")
+
+	def display(self):	
+		plt.tight_layout()
+		self.ax2.grid()
+		self.ax1.grid()
+		self.ax2.xaxis_date()
+		self.ax2.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d"))
+		plt.show()
