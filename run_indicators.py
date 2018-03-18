@@ -15,6 +15,8 @@ from indicators import adx
 
 
 def display_graphs():
+
+    # ============ Reading from file and formatting ============
     # Reading csv (comma seprated value) using panda dataframe and potting
     stock_info = pd.read_csv("./files/tesla_stock_data.csv", index_col='Date', parse_dates=True)
 
@@ -44,7 +46,7 @@ def display_graphs():
     candles.display_bollinger_indicator(dates_band, top_band, bottom_band, mid_band)
     candles.display_adx_indicator(dates, avg_direction_index, pos_directional_index, neg_directional_index)
 
-    candles.display()
+    candles.display_indicators()
 
 
 if __name__ == "__main__":
